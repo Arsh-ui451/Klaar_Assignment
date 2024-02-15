@@ -1,7 +1,11 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 public class usercustomFields {
@@ -32,33 +36,44 @@ public class usercustomFields {
         workSpaceSettings.login(driver, validUsername, validPassword);
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
-        //Navigate to Workspace settings page
+        //Navigate to User List page
         workSpaceSettings.navigateToWorkspaceSettings(driver);
         driver.findElement(By.xpath(klaarObjects.SELECT_USER_LIST)).click();
 
-        driver.findElement(By.xpath("//*[text()='Custom Fields']")).click();
-        driver.findElement(By.xpath("//*[text()='Add Field']")).click();
-        driver.findElement(By.xpath("//input[@formcontrolname='fieldName']")).sendKeys("NameABCD");
-        driver.findElement(By.xpath("//*[@data-icon='down']")).click();
-        driver.findElement(By.xpath("//*[text()='Date']")).click();
-        driver.findElement(By.xpath("//*[@data-cy='modal-submit-button']")).click();
+        //Navigate to Custom List page
+        driver.findElement(By.xpath(klaarObjects.ClickCustomList)).click();
+
+        //In the user details page, add a future date in the custom field for the user and save.
+        driver.findElement(By.xpath(klaarObjects.ADD_FIELD)).click();
+        String baseName = addNewUser.generateRandomName();
+        driver.findElement(By.xpath(klaarObjects.FieldName)).sendKeys(baseName);
+        driver.findElement(By.xpath(klaarObjects.DropDownList)).click();
+        driver.findElement(By.xpath(klaarObjects.SelectDate)).click();
+        driver.findElement(By.xpath(klaarObjects.SubmitButton)).click();
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 
-
-        driver.findElement(By.xpath("//*[text()='Add Field']")).click();
-        driver.findElement(By.xpath("//input[@formcontrolname='fieldName']")).sendKeys("Name12");
-        driver.findElement(By.xpath("//*[@data-icon='down']")).click();
-        driver.findElement(By.xpath("//*[text()='List']")).click();
-        driver.findElement(By.xpath("//*[@placeholder='Option List']")).sendKeys("Option1");
-        driver.findElement(By.xpath("//*[text()=' Add another Item ']")).click();
-        driver.findElement(By.xpath("//*[@placeholder='Option List']")).sendKeys("Option2");
-        driver.findElement(By.xpath("//*[text()=' Add another Item ']")).click();
-        driver.findElement(By.xpath("//*[@placeholder='Option List']")).sendKeys("Option3");
-        driver.findElement(By.xpath("//*[@data-cy='modal-submit-button']")).click();
+        //Add a new custom field of type List with 3 list options
+        driver.findElement(By.xpath(klaarObjects.ADD_FIELD)).click();
+        String fieldName = addNewUser.generateRandomName();
+        driver.findElement(By.xpath(klaarObjects.FieldName)).sendKeys(fieldName);
+        driver.findElement(By.xpath(klaarObjects.DropDownList)).click();
+        driver.findElement(By.xpath(klaarObjects.SelectList)).click();
+        driver.findElement(By.xpath(klaarObjects.OptionList)).sendKeys("Option1");
+        driver.findElement(By.xpath(klaarObjects.AddAnotherItem)).click();
+        driver.findElement(By.xpath(klaarObjects.OptionList)).sendKeys("Option2");
+        driver.findElement(By.xpath(klaarObjects.AddAnotherItem)).click();
+        driver.findElement(By.xpath(klaarObjects.OptionList)).sendKeys("Option3");
+        driver.findElement(By.xpath(klaarObjects.SubmitButton)).click();
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 
-        driver.findElement(By.xpath("//button[@class='ant-switch ant-switch-checked']")).click();
+        //Test the custom field switch on/off toggle and verify changes are reflected respectively in the user company details page
+        //Delete the custom field and verify the custom field is no longer visible in the custom field table as well as the user company details page.
+        String xpath = "//tr[@class='row ng-star-inserted']//td[normalize-space()='" + fieldName + "']//following-sibling::td//nz-switch/button";
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        WebElement toggleButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpath)));
+        toggleButton.click();
         driver.findElement(By.xpath("//*[@data-icon='delete']")).click();
         driver.quit();
     }
+
 }

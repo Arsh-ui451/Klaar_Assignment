@@ -1,5 +1,7 @@
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 
@@ -45,10 +47,10 @@ public class addNewUser {
         driver.findElement(By.xpath("//*[text()='Add User']")).click();
 
         //Create user
-        String baseName = "FullNameXYZ";
+        String baseName = generateRandomName();
         driver.findElement(By.xpath(klaarObjects.Name)).sendKeys(baseName);
-        String email = "fullnameKlaara001@gmail.com";
-        driver.findElement(By.xpath(klaarObjects.Email)).sendKeys(email);
+        String randomEmail = generateRandomEmail();
+        driver.findElement(By.xpath(klaarObjects.Email)).sendKeys(randomEmail);
         WebElement element = driver.findElement(By.xpath("//button[normalize-space(.)='Add Now']"));
         JavascriptExecutor executor = (JavascriptExecutor) driver;
         executor.executeScript("arguments[0].click();", element);
@@ -59,5 +61,18 @@ public class addNewUser {
         workSpaceSettings.verifyElement(actualText1, expectedText1);
         driver.findElement(By.xpath("//i[@nztype='arrow-left']\n")).click();
         driver.quit();
+    }
+    public static String generateRandomName() {
+        String baseName = "FieldName";
+        Random random = new Random();
+        int randomNumber = random.nextInt(100);
+        return baseName + randomNumber;
+    }
+    public static String generateRandomEmail() {
+        String baseEmail = "FieldEmail";
+        String domain = "@gmail.com";
+        Random rand = new Random();
+        int randomNumber = rand.nextInt(10);
+        return baseEmail + randomNumber + domain;
     }
 }
