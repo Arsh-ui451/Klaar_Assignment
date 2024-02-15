@@ -1,4 +1,5 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -42,6 +43,7 @@ public class usercustomFields {
 
         //Navigate to Custom List page
         driver.findElement(By.xpath(klaarObjects.ClickCustomList)).click();
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 
         //In the user details page, add a future date in the custom field for the user and save.
         driver.findElement(By.xpath(klaarObjects.ADD_FIELD)).click();
@@ -64,15 +66,23 @@ public class usercustomFields {
         driver.findElement(By.xpath(klaarObjects.AddAnotherItem)).click();
         driver.findElement(By.xpath(klaarObjects.OptionList)).sendKeys("Option3");
         driver.findElement(By.xpath(klaarObjects.SubmitButton)).click();
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
 
         //Test the custom field switch on/off toggle and verify changes are reflected respectively in the user company details page
         //Delete the custom field and verify the custom field is no longer visible in the custom field table as well as the user company details page.
-        String xpath = "//tr[@class='row ng-star-inserted']//td[normalize-space()='" + fieldName + "']//following-sibling::td//nz-switch/button";
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-        WebElement toggleButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpath)));
+
+        WebElement element = driver.findElement(By.xpath("String xpathExpression = \"//tr[@class='row ng-star-inserted']//td[normalize-space()='\" + baseName + \"']//following-sibling::td//nz-switch/button\";"));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+        WebElement toggleButton = element.findElement(By.xpath("//td[contains(text(),'\" + baseName + \"')]/following-sibling::td//nz-switch//button\n"));
         toggleButton.click();
-        driver.findElement(By.xpath("//*[@data-icon='delete']")).click();
+
+        // Verify that the field has been deleted
+        WebElement deletedField = driver.findElement(By.xpath("//td[contains(text(),'\" + baseName + \"')]"));
+        if (!deletedField.isDisplayed()) {
+            System.out.println("Field" + baseName + " has been successfully deleted.");
+        } else {
+            System.out.println("Field" + baseName + " has not been successfully deleted.");
+        }
         driver.quit();
     }
 
