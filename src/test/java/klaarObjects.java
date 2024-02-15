@@ -9,7 +9,15 @@ public class klaarObjects {
     public static final String ALL_USERS = "//*[text()='All Users']";
     public static final String Name = "//*[@id=\"cdk-overlay-1\"]/nz-modal-container/div/div/div/app-modal/div/div[2]/app-add-user-modal/div/nz-spin/div/div/div/form/div/div[1]/nz-form-item/nz-form-control/div/div/nz-input-group/input";
     public static final String Email = "//*[@id=\"cdk-overlay-1\"]/nz-modal-container/div/div/div/app-modal/div/div[2]/app-add-user-modal/div/nz-spin/div/div/div/form/div/div[2]/nz-form-item/nz-form-control/div/div/nz-input-group/input";
-
+    public static String ClickCustomList = "//*[text()='Custom Fields']";
+    public static final String ADD_FIELD = "//*[text()='Add Field']";
+    public static final String DropDownList = "//*[@data-icon='down']";
+    public static final String OptionList = "//*[@placeholder='Option List']";
+    public static final String SelectList = "//*[text()='List']";
+    public static final String AddAnotherItem = "//*[text()=' Add another Item ']";
+    public static final String FieldName = "//input[@formcontrolname='fieldName']";
+    public static final String SelectDate = "//*[text()='Date']";
+    public static final String SubmitButton = "//*[@data-cy='modal-submit-button']";
 
 
 
