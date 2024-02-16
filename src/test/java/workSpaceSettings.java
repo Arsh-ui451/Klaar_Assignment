@@ -93,6 +93,8 @@ public class workSpaceSettings {
         String fileText = driver.findElement(By.xpath(klaarObjects.CHOOSE_FILE_BUTTON)).getText();
         String expectedText1 = "Choose File";
         verifyElement(fileText, expectedText1);
+
+        //close the browser
         driver.quit();
         
     }

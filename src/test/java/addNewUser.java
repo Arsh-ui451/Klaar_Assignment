@@ -60,19 +60,21 @@ public class addNewUser {
         String expectedText1 = "Edit User";
         workSpaceSettings.verifyElement(actualText1, expectedText1);
         driver.findElement(By.xpath("//i[@nztype='arrow-left']\n")).click();
+
+        //close the browser
         driver.quit();
     }
     public static String generateRandomName() {
         String baseName = "FieldName";
         Random random = new Random();
-        int randomNumber = random.nextInt(100);
+        int randomNumber = random.nextInt(1000);
         return baseName + randomNumber;
     }
     public static String generateRandomEmail() {
         String baseEmail = "FieldEmail";
         String domain = "@gmail.com";
         Random rand = new Random();
-        int randomNumber = rand.nextInt(10);
+        int randomNumber = rand.nextInt(100);
         return baseEmail + randomNumber + domain;
     }
 }
