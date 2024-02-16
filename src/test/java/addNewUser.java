@@ -45,12 +45,15 @@ public class addNewUser {
        //Add user
         driver.findElement(By.xpath("//*[text()='Add']")).click();
         driver.findElement(By.xpath("//*[text()='Add User']")).click();
+        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 
         //Create user
         String baseName = generateRandomName();
         driver.findElement(By.xpath(klaarObjects.Name)).sendKeys(baseName);
         String randomEmail = generateRandomEmail();
         driver.findElement(By.xpath(klaarObjects.Email)).sendKeys(randomEmail);
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
         WebElement element = driver.findElement(By.xpath("//button[normalize-space(.)='Add Now']"));
         JavascriptExecutor executor = (JavascriptExecutor) driver;
         executor.executeScript("arguments[0].click();", element);
